@@ -1,2 +1,2 @@
 ---
-# defaults file for ansible-role-puppetize
+puppet_run_only: false

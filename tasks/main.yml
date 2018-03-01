@@ -2,6 +2,35 @@
 - name: install puppet
   yum: name='puppet' state=present
   tags: ['install_puppet_client']
+  when: puppet_run_only == False
+
+
+- name: Get puppet.conf contents
+  command: grep environment /etc/puppet/puppet.conf
+  register: puppet_file_content
+  failed_when: puppet_file_content.rc > 1
+  tags: ['configure_puppet_client', 'testing']
+  changed_when: False
+  check_mode: no
+
+- name: Fail if developments is run against test or production
+  fail:
+    msg: 'Development enviroment is not allowed to run against test or production'
+  tags: ['configure_puppet_client', 'testing' ]
+  when:
+    - puppet_environment != "production"
+    - puppet_environment != "test"
+    - puppet_file_content.stdout | search('test') or  puppet_file_content.stdout | search('production')
+    - puppet_file_content.rc == 0
+
+- name: Fail when test or production is run against wrong enviorment
+  fail:
+    msg: "{{ puppet_environment }} is apparently not allowed to be ran against this node"
+  tags: ['configure_puppet_client', 'testing']
+  when:
+    - puppet_environment not in puppet_file_content.stdout
+    - puppet_environment == "production" or puppet_environment == "test"
+    - puppet_file_content.rc == 0
 
 - name: copy puppet config
   template: src='puppet.conf' dest='/etc/puppet/puppet.conf'
@@ -9,25 +38,26 @@
 
 - name: request cert to be signed on puppetmaster
   command: "puppet agent --test --noop"
-  #sudo: yes
+  #become: yes
   register: puppet_result
   args:
     creates: "/var/lib/puppet/ssl/certificate_requests/{{ ansible_fqdn }}.pem"
   failed_when: (puppet_result.rc != 1) and (puppet_result.rc != 0)
   tags: ['puppet_cert_bootstrap']
+  when: puppet_run_only == False
 
 - name: sign cert on puppetmaster
   command: "puppet cert sign {{ ansible_fqdn }}"
   remote_user: "{{ lookup('env', 'USER') }}"
-  sudo: yes
+  become: yes
   args:
     removes: "/var/lib/puppet/ssl/ca/requests/{{ ansible_fqdn }}.pem"
   delegate_to: "{{ puppetmaster }}"
   tags: ['puppet_cert_bootstrap']
+  when: puppet_run_only == false
 
 - name: puppetize!
   command: "puppet agent -t"
-  #sudo: yes
   register: puppet_result
   failed_when: (puppet_result.rc != 2) and (puppet_result.rc != 0)
   tags: ['puppet_run']
