@@ -2,6 +2,8 @@
 
  - name: Playbook for CI testing.
    hosts: localhost
+   vars:
+     - puppet_environment: "branchname"
 
    roles:
        - ansible-role-puppetize
