@@ -5,6 +5,7 @@
    vars:
      - puppet_environment: "branchname"
      - puppetmaster_fqdn: "test.fqdn.example.com"
+     - puppetmaster: localhost
 
    roles:
        - ansible-role-puppetize
