@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/CSCfi/ansible-role-puppetize.svg?branch=master)](https://travis-ci.org/CSCfi/ansible-role-puppetize)
+
 ansible-role-puppetize
 =========
 

@@ -1,5 +1,8 @@
 ---
-- hosts: localhost
-  remote_user: root
-  roles:
-    - ansible-role-puppetize
+
+ - name: Playbook for CI testing.
+   hosts: localhost
+
+   roles:
+       - ansible-role-puppetize
+...
