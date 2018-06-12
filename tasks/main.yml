@@ -20,7 +20,7 @@
   when:
     - puppet_environment != "production"
     - puppet_environment != "test"
-    - puppet_file_content.stdout | search('test') or  puppet_file_content.stdout | search('production')
+    - puppet_file_content.stdout is search('test') or puppet_file_content.stdout is search('production')
     - puppet_file_content.rc == 0
 
 - name: Fail when test or production is run against wrong enviorment
