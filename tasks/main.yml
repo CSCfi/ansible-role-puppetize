@@ -15,7 +15,7 @@
 
 - name: Fail if developments is run against test or production
   fail:
-    msg: 'Development enviroment is not allowed to run against test or production'
+    msg: 'Development environment is not allowed to run against test or production'
   tags: ['configure_puppet_client', 'testing' ]
   when:
     - puppet_environment != "production"
@@ -23,7 +23,7 @@
     - puppet_file_content.stdout is search('test') or puppet_file_content.stdout is search('production')
     - puppet_file_content.rc == 0
 
-- name: Fail when test or production is run against wrong enviorment
+- name: Fail when test or production is run against wrong environment
   fail:
     msg: "{{ puppet_environment }} is apparently not allowed to be ran against this node"
   tags: ['configure_puppet_client', 'testing']
