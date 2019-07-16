@@ -36,6 +36,23 @@
   template: src='puppet.conf' dest='/etc/puppet/puppet.conf'
   tags: ['configure_puppet_client']
 
+# We hope that it takes longer than default 60s to get facts from puppetmaster
+- name: set epoch time + {{ puppetize_time_difference }}s as my_puppetize_time
+  set_fact:
+    my_puppetize_time: "{{ ansible_date_time.epoch|int + puppetize_time_difference }}"
+
+- name: grab time from puppetmaster
+  setup:
+    gather_subset: min
+  register: reg_puppetmaster_facts
+  delegate_to: "{{ puppetmaster }}"
+
+- name: We do not want to create a certificate that is not valid until time has caught up with time on the puppetmaster
+  fail:
+    msg: Time is too much in the past on the agent ({{ my_puppetize_time }} vs {{ reg_puppetmaster_facts.ansible_facts.ansible_date_time.epoch }}), fail before we create a certificate on the puppet agent
+  when: my_puppetize_time < reg_puppetmaster_facts.ansible_facts.ansible_date_time.epoch
+#
+
 - name: request cert to be signed on puppetmaster
   command: "puppet agent --test --noop"
   #become: yes

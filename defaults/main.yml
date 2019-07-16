@@ -1,2 +1,3 @@
 ---
 puppet_run_only: false
+puppetize_time_difference: 60
