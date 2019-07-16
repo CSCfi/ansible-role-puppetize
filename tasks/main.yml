@@ -45,6 +45,8 @@
   setup:
     gather_subset: min
   register: reg_puppetmaster_facts
+  remote_user: "{{ lookup('env', 'USER') }}"
+  become: yes
   delegate_to: "{{ puppetmaster }}"
 
 - name: We do not want to create a certificate that is not valid until time has caught up with time on the puppetmaster
