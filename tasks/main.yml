@@ -55,8 +55,11 @@
   fail:
     msg: Time is too much in the past on the agent ({{ my_puppetize_time }} vs {{ reg_puppetmaster_facts.ansible_facts.ansible_date_time.epoch }}), fail before we create a certificate on the puppet agent
   when:
-    - my_puppetize_time < reg_puppetmaster_facts.ansible_facts.ansible_date_time.epoch
+# Order matters
+    - reg_puppetmaster_facts is defined
+    - reg_puppetmaster_facts.ansible_facts is defined
     - puppet_run_only == False
+    - my_puppetize_time < reg_puppetmaster_facts.ansible_facts.ansible_date_time.epoch
 #
 
 - name: request cert to be signed on puppetmaster
