@@ -2,11 +2,10 @@
 
 - name: install puppetlabs repo
   yum:
-    name: "{{item}}"
+    name: "{{ puppetlabs_repo_url }}"
     state: present
     validate_certs: no
-  with_items:
-    - "{{puppetlabs_repo_url}}"
+  environment: "{{ proxy_env|default(omit) }}"
   when: puppetize_manage_yumrepo
 
 - name: install puppet
