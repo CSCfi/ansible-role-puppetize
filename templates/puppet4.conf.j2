@@ -11,8 +11,6 @@
     # Where SSL certificates are kept.
     # The default value is '$confdir/ssl'.
     #ssldir = $vardir/ssl
-    environment = {{ puppet_environment }}
-    environmentpath = $codedir/environments
 
 [agent]
     # The file in which puppetd stores a list of the classes
@@ -28,3 +26,5 @@
     #localconfig = $vardir/localconfig
     server = {{ puppetmaster_fqdn }}
     certname = {{ inventory_hostname }}
+    environment = {{ puppet_environment }}
+    environmentpath = $codedir/environments
