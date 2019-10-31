@@ -127,12 +127,12 @@
   when: not puppet_run_only
 
 - name: sign cert on puppetmaster
-  command: "{{ puppet_agent_bin_path }} cert sign {{ inventory_hostname }}"
+  command: "{{ puppet_agent_bin_path }} cert sign {{ inventory_hostname }}.openstacklocal"
   remote_user: "{{ lookup('env', 'USER') }}"
   become: yes
   become_user: root
   args:
-    removes: "{{ puppet_ca_request_path }}/{{ inventory_hostname }}.pem"
+    removes: "{{ puppet_ca_request_path }}/{{ inventory_hostname }}.openstacklocal.pem"
   delegate_to: "{{ puppetmaster }}"
   tags: ['puppet_cert_bootstrap']
   when: not puppet_run_only
