@@ -10,6 +10,7 @@
        - "use_srv_records = true"
      - puppetize_extra_agent_params:
        - "summarize = true"
+     - puppetize_manage_yumrepo: True
 
    roles:
        - ansible-role-puppetize
