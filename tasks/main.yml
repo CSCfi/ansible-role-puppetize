@@ -1,10 +1,5 @@
 ---
 
-- name: gather os specific variables
-  include_vars: "{{ item }}"
-  with_first_found:
-    - "vars/{{ ansible_facts['os_family'] }}.yml"
-
 - name: install puppetlabs repo
   yum:
     name: "{{ puppetlabs_repo_url }}"
@@ -14,8 +9,8 @@
   when: puppetize_manage_yumrepo
 
 - name: install puppet
-  package:
-    name: "{{ puppetize_puppet_package }}"
+  yum:
+    name: 'puppet'
     state: present
   tags: ['install_puppet_client']
   when: puppet_run_only == False
