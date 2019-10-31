@@ -1,8 +1,6 @@
 ---
 puppet_run_only: False
 puppetize_time_difference: 60
-puppetlabs_repo_url:
-  - 'https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm'
 puppetize_manage_yumrepo: False
 puppetize_enable_puppet: False
 

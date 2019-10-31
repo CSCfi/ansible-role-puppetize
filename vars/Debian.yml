@@ -1,0 +1,3 @@
+puppetize_puppet_package: 'puppet-agent'
+puppetlabs_repo_url: ''
+
