@@ -5,6 +5,13 @@ puppetlabs_repo_url:
   - 'https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm'
 puppetize_manage_yumrepo: False
 puppetize_enable_puppet: False
+
+# examples for extra puppet.conf settings:
+#puppetize_extra_main_params:
+#  - "use_srv_records = true"
+#puppetize_extra_agent_params:
+#  - "summarize = true"
+
 # example for yum proxy setup
 #proxy_server_address: "http://myproxyip.example.org:3128"
 #proxy_env:

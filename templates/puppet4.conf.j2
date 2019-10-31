@@ -12,6 +12,12 @@
     # The default value is '$confdir/ssl'.
     #ssldir = $vardir/ssl
 
+{%- if puppetize_extra_main_params is defined -%}
+{% for main_parms in puppetize_extra_main_params %}
+{{ main_parms }}
+{% endfor %}
+{% endif %}
+
 [agent]
     # The file in which puppetd stores a list of the classes
     # associated with the retrieved configuratiion.  Can be loaded in
@@ -28,3 +34,8 @@
     certname = {{ inventory_hostname }}
     environment = {{ puppet_environment }}
     environmentpath = $codedir/environments
+{%- if puppetize_extra_agent_params is defined -%}
+{% for agent_parms in puppetize_extra_agent_params %}
+{{ agent_parms }}
+{% endfor %}
+{% endif %}
