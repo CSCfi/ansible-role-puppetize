@@ -14,7 +14,7 @@
 
 {% if puppetize_extra_main_params is defined %}
 {% for main_parms in puppetize_extra_main_params %}
-{{ main_parms }}
+    {{ main_parms }}
 {% endfor %}
 {% endif %}
 
@@ -36,6 +36,6 @@
     environmentpath = $codedir/environments
 {% if puppetize_extra_agent_params is defined %}
 {% for agent_parms in puppetize_extra_agent_params %}
-{{ agent_parms }}
+    {{ agent_parms }}
 {% endfor %}
 {% endif %}
