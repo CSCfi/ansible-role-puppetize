@@ -5,7 +5,7 @@
     name: "{{ puppetlabs_repo_url }}"
     state: present
     validate_certs: no
-  environment: "{{ proxy_env|default(omit) }}"
+  environment: "{{ proxy_env|default({}) }}"
   when: puppetize_manage_yumrepo
 
 - name: install puppet
