@@ -116,12 +116,16 @@ function test_playbook(){
 
 
     echo "TEST: idempotence test! Same as previous but now grep for changed=0.*failed=0"
-    ansible-playbook -i ${ANSIBLE_INVENTORY} ${ANSIBLE_PLAYBOOk} ${ANSIBLE_LOG_LEVEL} --connection=local ${SUDO_OPTION} ${ANSIBLE_EXTRA_VARS} --skip-tags puppet_cert_bootstrap,puppet_run || grep -q 'changed=0.*failed=0' && (echo 'Idempotence test: pass' ) || (echo 'Idempotence test: fail' && exit 1)
+    ansible-playbook -i ${ANSIBLE_INVENTORY} ${ANSIBLE_PLAYBOOk} ${ANSIBLE_LOG_LEVEL} --connection=local ${SUDO_OPTION} ${ANSIBLE_EXTRA_VARS} --skip-tags puppet_cert_bootstrap,puppet_run | grep -q 'changed=0.*failed=0' && (echo 'Idempotence test: pass' ) || (echo 'Idempotence test: fail' && exit 1)
 }
 function extra_tests(){
 
-    echo "TEST: ls /etc/puppetlabs/puppet/*"
-    ls /etc/puppetlabs/puppet/
+    #echo "TEST: ls /etc/puppetlabs/puppet/*"
+    #ls /etc/puppetlabs/puppet/
+    echo "TEST: ls -l all puppet.confs"
+    find / -type f -name 'puppet.conf' -exec ls -l {} \; 2>&1|grep -v "Permission denied"
+    echo "TEST: cat all puppet.confs"
+    find / -type f -name 'puppet.conf' -exec cat {} \; 2>&1|grep -v "Permission denied"
 
 }
 
@@ -137,7 +141,7 @@ function main(){
     test_playbook_syntax
     test_playbook
     test_playbook_check
-#    extra_tests
+    extra_tests
 
 }
 
