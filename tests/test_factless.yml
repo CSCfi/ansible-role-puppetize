@@ -1,0 +1,19 @@
+---
+
+ - name: Playbook for CI testing.
+   hosts: localhost
+   gather_facts: False
+   vars:
+     - puppet_environment: "branchname"
+     - puppetmaster_fqdn: "test.fqdn.example.com"
+     - puppetmaster: localhost
+     - puppetize_extra_main_params:
+       - "use_srv_records = true"
+     - puppetize_extra_agent_params:
+       - "summarize = true"
+       - "strict_variables = true"
+     - puppetize_manage_yumrepo: True
+
+   roles:
+       - ansible-role-puppetize
+...

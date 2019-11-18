@@ -12,6 +12,7 @@ ANSIBLE_VERSION=${3:-}
 ANSIBLE_VAR=""
 ANSIBLE_INVENTORY="tests/inventory"
 ANSIBLE_PLAYBOOk="tests/test.yml"
+ANSIBLE_PLAYBOOK_FACTLESS="tests/test_factless.yml"
 #ANSIBLE_LOG_LEVEL=""
 ANSIBLE_LOG_LEVEL="-v"
 APACHE_CTL="apache2ctl"
@@ -117,6 +118,9 @@ function test_playbook(){
 
     echo "TEST: idempotence test! Same as previous but now grep for changed=0.*failed=0"
     ansible-playbook -i ${ANSIBLE_INVENTORY} ${ANSIBLE_PLAYBOOk} ${ANSIBLE_LOG_LEVEL} --connection=local ${SUDO_OPTION} ${ANSIBLE_EXTRA_VARS} --skip-tags puppet_cert_bootstrap,puppet_run | grep -q 'changed=0.*failed=0' && (echo 'Idempotence test: pass' ) || (echo 'Idempotence test: fail' && exit 1)
+
+    echo "TEST: second idempotence test with gather_facts False in playbook"
+    ansible-playbook -i ${ANSIBLE_INVENTORY} ${ANSIBLE_PLAYBOOK_FACTLESS} ${ANSIBLE_LOG_LEVEL} --connection=local ${SUDO_OPTION} ${ANSIBLE_EXTRA_VARS} --skip-tags puppet_cert_bootstrap,puppet_run
 }
 function extra_tests(){
 
