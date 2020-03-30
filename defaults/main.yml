@@ -1,6 +1,6 @@
 ---
 puppet_run_only: False
-puppetize_time_difference: 60
+puppetize_time_difference: 120
 puppetize_manage_yumrepo: False
 puppetize_enable_puppet: False
 
