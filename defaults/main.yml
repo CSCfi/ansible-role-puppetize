@@ -4,6 +4,8 @@ puppetize_time_difference: 120
 puppetize_manage_yumrepo: False
 puppetize_enable_puppet: False
 
+noop_run: false
+
 # examples for extra puppet.conf settings:
 #puppetize_extra_main_params:
 #  - "use_srv_records = true"
