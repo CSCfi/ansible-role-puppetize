@@ -155,7 +155,7 @@
 
 - name: Get output from Puppet run
   slurp:
-    src: /tmp/puppetize_noop.json
+    src: /tmp/puppetize_noop
   register: puppet_output
   when: noop_run
 
@@ -176,7 +176,7 @@
 
 - name: Get output from Puppet run
   slurp:
-    src: /tmp/puppetize.json
+    src: /tmp/puppetize
   register: puppet_output
   when: not noop_run
 
