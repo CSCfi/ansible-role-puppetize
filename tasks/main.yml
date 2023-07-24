@@ -146,17 +146,34 @@
   when: puppetize_enable_puppet
 
 - name: Dry run (no changes, depending on the puppet code) of Puppet
-  command: "{{ puppet_agent_bin_path }} agent -t --noop"
+  command: "{{ puppet_agent_bin_path }} agent -t --noop --logdest /tmp/puppetize_noop.json"
   register: puppet_result
   changed_when: puppet_result.rc == 2
   failed_when: (puppet_result.rc != 2) and (puppet_result.rc != 0)
   tags: [ 'puppet_run', 'skip_ansible_lint' ]
   when: noop_run
 
+- name: Get output from Puppet run
+  slurp:
+    src: /tmp/puppetize_noop.json
+    register: puppet_output
+  when: noop_run
+
 - name: puppetize!
-  command: "{{ puppet_agent_bin_path }} agent -t"
+  command: "{{ puppet_agent_bin_path }} agent -t --logdest /tmp/puppetize.json"
   register: puppet_result
   changed_when: puppet_result.rc == 2
   failed_when: (puppet_result.rc != 2) and (puppet_result.rc != 0)
   tags: [ 'puppet_run', 'skip_ansible_lint' ]
   when: not noop_run
+
+- name: Get output from Puppet run
+  slurp:
+    src: /tmp/puppetize.json
+    register: puppet_output
+  when: not noop_run
+
+- name: Show output if it's not a clean run
+  debug:
+    msg: "{{ puppet_output['content'] | b64decode }}"
+  when: (noop_run and puppet_result.rc != 0) or (not noop_run and puppet_result.rc != 0 and puppet_result.rc != 2)
