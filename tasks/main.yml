@@ -158,7 +158,7 @@
     var: dry_puppet_result['stdout_lines']
   when: 
     - noop_run
-    # - dry_puppet_result.rc != 0
+    - dry_puppet_result.rc != 0
 
 - name: puppetize!
   command: "{{ puppet_agent_bin_path }} agent -t --logdest /tmp/puppetize"
