@@ -153,12 +153,10 @@
   tags: [ 'puppet_run', 'skip_ansible_lint' ]
   when: noop_run
 
-- name: Show output if it's not a clean run
+- name: Show output
   debug:
     var: dry_puppet_result['stdout_lines']
-  when: 
-    - noop_run
-    - dry_puppet_result.rc != 0
+  when: noop_run
 
 - name: puppetize!
   command: "{{ puppet_agent_bin_path }} agent -t --logdest /tmp/puppetize"
