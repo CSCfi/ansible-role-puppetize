@@ -146,7 +146,7 @@
   when: puppetize_enable_puppet
 
 - name: Dry run (no changes, depending on the puppet code) of Puppet
-  command: "{{ puppet_agent_bin_path }} agent -t --noop --logdest /tmp/puppetize_noop"
+  command: "{{ puppet_agent_bin_path }} agent -t --noop
   register: dry_puppet_result
   changed_when: dry_puppet_result.rc == 2
   failed_when: (dry_puppet_result.rc != 2) and (dry_puppet_result.rc != 0)
