@@ -164,7 +164,7 @@
     msg: "{{ puppet_output['content'] | b64decode }}"
   when: 
     - noop_run
-    - dry_puppet_result.rc != 0
+    # - dry_puppet_result.rc != 0
 
 - name: puppetize!
   command: "{{ puppet_agent_bin_path }} agent -t --logdest /tmp/puppetize.json"
@@ -185,5 +185,5 @@
     msg: "{{ puppet_output['content'] | b64decode }}"
   when: 
     - not noop_run
-    - puppet_result.rc != 
+    - puppet_result.rc != 0
     - puppet_result.rc != 2
