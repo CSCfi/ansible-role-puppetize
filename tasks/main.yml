@@ -161,7 +161,8 @@
 
 - name: Show output if it's not a clean run
   debug:
-    msg: "{{ puppet_output['content'] | b64decode }}"
+    # msg: "{{ puppet_output['content'] | b64decode }}"
+    var: dry_puppet_result
   when: 
     - noop_run
     # - dry_puppet_result.rc != 0
