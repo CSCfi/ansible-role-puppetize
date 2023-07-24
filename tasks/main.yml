@@ -175,7 +175,7 @@
 
 - name: Show result code
   debug:
-    msg: "{{ puppet_result.rc }}"
+    msg: "{{ puppet_result }}"
 
 - name: Show output if it's not a clean run
   debug:
