@@ -153,16 +153,9 @@
   tags: [ 'puppet_run', 'skip_ansible_lint' ]
   when: noop_run
 
-- name: Get output from Puppet run
-  slurp:
-    src: /tmp/puppetize_noop
-  register: puppet_output
-  when: noop_run
-
 - name: Show output if it's not a clean run
   debug:
-    # msg: "{{ puppet_output['content'] | b64decode }}"
-    var: dry_puppet_result
+    var: dry_puppet_result['stdout_lines']
   when: 
     - noop_run
     # - dry_puppet_result.rc != 0
@@ -175,15 +168,9 @@
   tags: [ 'puppet_run', 'skip_ansible_lint' ]
   when: not noop_run
 
-- name: Get output from Puppet run
-  slurp:
-    src: /tmp/puppetize
-  register: puppet_output
-  when: not noop_run
-
 - name: Show output if it's not a clean run
   debug:
-    msg: "{{ puppet_output['content'] | b64decode }}"
+    var: puppet_result['stdout_lines']
   when: 
     - not noop_run
     - puppet_result.rc != 0
