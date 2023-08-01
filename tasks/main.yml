@@ -99,7 +99,7 @@
     filter: "ansible_date_time*"
   register: reg_puppetmaster_facts
   remote_user: "{{ lookup('env', 'USER') }}"
-  become: yes
+  become: true
   delegate_to: "{{ puppetmaster }}"
   delegate_facts: True
   when: not puppet_run_only
@@ -133,7 +133,7 @@
 - name: sign cert on puppetmaster
   command: "{{ puppet_agent_bin_path }} cert sign {{ inventory_hostname }}"
   remote_user: "{{ lookup('env', 'USER') }}"
-  become: yes
+  become: true
   become_user: root
   args:
     removes: "{{ puppet_ca_request_path }}/{{ inventory_hostname }}.pem"
@@ -145,9 +145,31 @@
   command: "{{ puppet_agent_bin_path }} agent --enable"
   when: puppetize_enable_puppet
 
+- name: Dry run (no changes, depending on the puppet code) of Puppet
+  command: "{{ puppet_agent_bin_path }} agent -t --noop"
+  register: dry_puppet_result
+  changed_when: dry_puppet_result.rc == 2
+  failed_when: (dry_puppet_result.rc != 2) and (dry_puppet_result.rc != 0)
+  tags: [ 'puppet_run', 'skip_ansible_lint' ]
+  when: noop_run
+
+- name: Show output
+  debug:
+    var: dry_puppet_result['stdout_lines']
+  when: noop_run
+
 - name: puppetize!
   command: "{{ puppet_agent_bin_path }} agent -t"
   register: puppet_result
   changed_when: puppet_result.rc == 2
   failed_when: (puppet_result.rc != 2) and (puppet_result.rc != 0)
   tags: [ 'puppet_run', 'skip_ansible_lint' ]
+  when: not noop_run
+
+- name: Show output if it's not a clean run
+  debug:
+    var: puppet_result['stdout_lines']
+  when: 
+    - not noop_run
+    - puppet_result.rc != 0
+    - puppet_result.rc != 2
