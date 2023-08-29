@@ -27,6 +27,16 @@
   tags: ['install_puppet_client']
   when: puppetize_manage_yumrepo
 
+- name: install old version of leatherman for CentOS7
+  package:
+    name: leatherman-1.3.0-9.el7.x86_64
+    state: present
+  tags: ['install_puppet_client']
+  when:
+    - not puppet_run_only
+    - ansible_facts['os']['name'] == 'CentOS'
+    - ansible_facts['os']['name']['release']['major'] == '7'
+
 - name: install puppet
   package:
     name: "{{ puppetize_puppet_package }}"
