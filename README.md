@@ -13,6 +13,14 @@ N/A
 Role Variables
 --------------
 
+See defaults/main.yml for current defaults, but as some information:
+
+puppet_run_only: Boolean (true or false). Default false. Only run Puppet without installing it.
+puppetize_time_difference: Integer. Default 120. Maximum difference of time to accept the certificate.
+puppetize_manage_yumrepo: Boolean (true or false). Default false. Ensure the YUM repository is configured.
+puppetize_enable_puppet: Boolean (true or false). Default false. Enable puppet agent.
+noop_run: Boolean (true or false). Default false. Run puppet agent with --noop option that should not apply changes.
+
 Dependencies
 ------------
 
