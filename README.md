@@ -50,7 +50,7 @@ Basic environment needed: an agent and a puppetmaster on different VMs/tainers w
 When testing this role it's a good idea to run it on a node:
   - which is already puppetized from before
   - which is not puppetized before (generate CSR and sign the certificate)
-  - where we only run some tasks with "puppet_run_only=True"
+  - where we only run some tasks with -e '{\"puppet_run_only\":true}' (remove backslashes before running)
 
 Author Information
 ------------------
