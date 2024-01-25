@@ -18,6 +18,15 @@
   with_first_found:
     - "vars/{{ os_family |default('RedHat')}}.yml"
 
+- name: check if we are in CentOS 8
+  set_fact:
+    os_centos8: ansible_facts['distribution'] == 'CentOS' and ansible_facts['distribution_major_version'] == '8'
+
+- name: adjust vars in case of CentOS 8
+  set_fact:
+    puppetlabs_repo_url: "{{ puppetlabs_repo_url_centos8 }}"
+  when: os_centos8
+
 - name: install puppetlabs repo
   yum:
     name: "{{ puppetlabs_repo_url }}"
@@ -25,14 +34,22 @@
     validate_certs: no
   environment: "{{ proxy_env|default({}) }}"
   tags: ['install_puppet_client']
-  when: puppetize_manage_yumrepo
+  when: puppetize_manage_yumrepo or os_centos8
 
 - name: install puppet
   package:
     name: "{{ puppetize_puppet_package }}"
     state: present
   tags: ['install_puppet_client']
-  when: not puppet_run_only
+  when: not puppet_run_only and not os_centos8
+
+- name: install puppet in case of CentOS 8
+  yum:
+    name: "{{ puppetize_puppet_package }}"
+    state: present
+    enablerepo: "{{ puppetlabs_repo_name_centos8 }}"
+  tags: ['install_puppet_client']
+  when: not puppet_run_only and os_centos8
 
 - name: stat /etc/puppetlabs
   stat:

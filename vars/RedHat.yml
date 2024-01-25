@@ -2,3 +2,6 @@ puppetize_puppet_package: 'puppet'
 puppetlabs_repo_url:
   - 'https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm'
 
+puppetlabs_repo_name_centos8: 'puppet5'
+puppetlabs_repo_url_centos8:
+  - 'https://yum.puppetlabs.com/eol-releases/puppet5-release-el-8.noarch.rpm'
