@@ -35,7 +35,7 @@
 
 - name: install puppet
   package:
-    name: "{{ puppetize_puppet_package }}"
+    name: "{{ puppetize_puppet_package |default(default_puppetize_puppet_package) }}"
     state: present
     enablerepo: "puppet{{ puppet_version }}"
   tags: ['install_puppet_client']
