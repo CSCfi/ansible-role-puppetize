@@ -11,6 +11,10 @@
     - puppet_version < 6
     - puppetize_manage_repo
 
+- name: Show default repo
+  debug:
+    msg: "{{ repo_base ~ '/puppet' ~ puppet_version ~ '-release-el-' ~ ansible_facts['distribution_major_version'] ~ '.noarch.rpm' }}"
+
 - name: install puppetlabs repo
   yum:
     name: "{{ puppetlabs_repo_url | default(repo_base ~ '/puppet' ~ puppet_version ~ '-release-el-' ~ ansible_facts['distribution_major_version'] ~ '.noarch.rpm') }}"
