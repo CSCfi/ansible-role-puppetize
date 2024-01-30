@@ -1,10 +1,10 @@
 ---
-puppet_run_only: False
+puppet_run_only: false
 puppetize_time_difference: 120
-puppetize_manage_repo: False
-puppetize_enable_puppet: False
+puppetize_manage_repo: false
+puppetize_enable_puppet: false
 
-noop_run: False
+noop_run: false
 
 puppet_version: 5
 
