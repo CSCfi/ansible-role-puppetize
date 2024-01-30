@@ -1,7 +1,7 @@
 ---
 - name: install puppetlabs repo
   apt:
-    deb: "{{ puppetlabs_repo_url | default('https://apt.puppetlabs.com/puppet' + puppet_version + '-release-' + ansible_facts['distribution_release'] + '.deb') }}"
+    deb: "{{ puppetlabs_repo_url | default('https://apt.puppetlabs.com/puppet' ~ puppet_version ~ '-release-' ~ ansible_facts['distribution_release'] ~ '.deb') }}"
     state: present
   environment: "{{ proxy_env|default({}) }}"
   tags: ['install_puppet_client']

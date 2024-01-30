@@ -13,7 +13,7 @@
 
 - name: install puppetlabs repo
   yum:
-    name: "{{ puppetlabs_repo_url | default(repo_base + '/puppet' + puppet_version + '-release-el-' + ansible_facts['distribution_major_version'] + '.noarch.rpm') }}"
+    name: "{{ puppetlabs_repo_url | default(repo_base ~ '/puppet' ~ puppet_version ~ '-release-el-' ~ ansible_facts['distribution_major_version'] ~ '.noarch.rpm') }}"
     state: present
     validate_certs: no
   environment: "{{ proxy_env|default({}) }}"
