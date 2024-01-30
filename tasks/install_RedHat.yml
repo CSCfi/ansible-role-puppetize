@@ -6,7 +6,7 @@
 
 - name: Set repo base for EOL
   set_fact:
-    repo_base: https://yum.puppetlabs.com/eol-releases/
+    repo_base: https://yum.puppetlabs.com/eol-releases
   when:
     - puppet_version < 6
     - puppetize_manage_repo
