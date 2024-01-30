@@ -1,7 +1,19 @@
 ---
+- name: Set repo base
+  set_fact:
+    repo_base: https://apt.puppetlabs.com
+  when: puppetize_manage_repo
+
+- name: Set repo base for EOL
+  set_fact:
+    repo_base: https://apt.puppetlabs.com/eol-releases
+  when:
+    - puppet_version < 6
+    - puppetize_manage_repo
+
 - name: install puppetlabs repo
   apt:
-    deb: "{{ puppetlabs_repo_url | default('https://apt.puppetlabs.com/puppet' ~ puppet_version ~ '-release-' ~ ansible_facts['distribution_release'] ~ '.deb') }}"
+    deb: "{{ puppetlabs_repo_url | default(repo_base ~ '/puppet' ~ puppet_version ~ '-release-' ~ ansible_facts['distribution_release'] ~ '.deb') }}"
     state: present
   environment: "{{ proxy_env|default({}) }}"
   tags: ['install_puppet_client']
