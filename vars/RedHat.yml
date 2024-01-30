@@ -1,3 +1,0 @@
-puppetize_puppet_package: 'puppet'
-puppetlabs_repo_url:
-  - 'https://yum.puppetlabs.com/eol-releases/puppet5-release-el-7.noarch.rpm'
