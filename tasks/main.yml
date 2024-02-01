@@ -2,14 +2,6 @@
 - name: Install Puppet
   include_tasks: "install_{{ ansible_os_family }}.yml"
 
-- name: stat /etc/puppetlabs
-  stat:
-    path: /etc/puppetlabs
-  register: reg_puppetize_stat_puppetlabs
-  ignore_errors: True
-  changed_when: False
-  tags: ['configure_puppet_client']
-
 - name: Check if puppet.conf contains environment
   command: "grep environment {{ puppet_etc_dir }}/puppet.conf"
   register: puppet_file_content
