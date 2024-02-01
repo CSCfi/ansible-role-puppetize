@@ -6,7 +6,7 @@ puppetize_enable_puppet: false
 
 noop_run: false
 
-puppet_version: 5
+puppet_version: 4
 
 # Default is calculated based on facts but you can override with this variable
 # puppetlabs_repo_url:
