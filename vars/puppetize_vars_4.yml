@@ -1,9 +1,0 @@
----
-
-puppet_etc_dir: "/etc/puppetlabs/puppet"
-puppet_conf_source: "puppet4.conf.j2"
-puppet_agent_bin_path: "/opt/puppetlabs/bin/puppet"
-puppet_cert_request_path: "/etc/puppetlabs/puppet/ssl/certificate_requests"
-puppet_ca_request_path: "/etc/puppetlabs/puppet/ssl/ca/requests/"
-
-...

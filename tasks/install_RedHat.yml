@@ -1,0 +1,47 @@
+---
+- name: Set repo base
+  set_fact:
+    repo_base: https://yum.puppetlabs.com
+  when: puppetize_manage_repo
+
+- name: Set repo base for EOL
+  set_fact:
+    repo_base: https://yum.puppetlabs.com/eol-releases
+  when:
+    - puppet_version < 6
+    - puppetize_manage_repo
+
+- name: Show repo URLs
+  debug:
+    msg: "Either '{{ puppetlabs_repo_url |default('undefined')}}' or '{{ repo_base ~ '/puppet' ~ puppet_version ~ '-release-el-' ~ ansible_facts['distribution_major_version'] ~ '.noarch.rpm' }}'"
+  when: puppetize_manage_repo
+
+- name: install puppetlabs repo
+  yum:
+    name: "{{ puppetlabs_repo_url | default(repo_base ~ '/puppet' ~ puppet_version ~ '-release-el-' ~ ansible_facts['distribution_major_version'] ~ '.noarch.rpm') }}"
+    state: present
+    validate_certs: no
+  environment: "{{ proxy_env|default({}) }}"
+  tags: ['install_puppet_client']
+  when: puppetize_manage_repo
+
+- name: Calculate default puppet package
+  set_fact:
+    default_puppetize_puppet_package: puppet-agent
+  when: not puppet_run_only
+
+- name: Calculate default puppet package for CentOS 7
+  set_fact:
+    default_puppetize_puppet_package: puppet
+  when:
+    - ansible_facts['distribution_release'] == 7
+    - puppet_version <= 4
+    - not puppet_run_only
+
+- name: install puppet
+  package:
+    name: "{{ puppetize_puppet_package |default(default_puppetize_puppet_package) }}"
+    state: present
+  tags: ['install_puppet_client']
+  when: not puppet_run_only
+...
