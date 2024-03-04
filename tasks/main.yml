@@ -1,6 +1,7 @@
 ---
 - name: Install Puppet
   include_tasks: "install_{{ ansible_os_family }}.yml"
+  when: not puppet_run_only
 
 - name: Check if puppet.conf contains environment
   command: "grep environment {{ puppet_etc_dir }}/puppet.conf"
