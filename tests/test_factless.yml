@@ -12,7 +12,7 @@
      - puppetize_extra_agent_params:
        - "summarize = true"
        - "strict_variables = true"
-     - puppetize_manage_yumrepo: True
+     - puppetize_manage_repo: True
 
    roles:
        - ansible-role-puppetize
