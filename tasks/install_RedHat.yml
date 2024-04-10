@@ -16,6 +16,13 @@
     msg: "Either '{{ puppetlabs_repo_url |default('undefined')}}' or '{{ repo_base ~ '/puppet' ~ puppet_version ~ '-release-el-' ~ ansible_facts['distribution_major_version'] ~ '.noarch.rpm' }}'"
   when: puppetize_manage_repo
 
+- name: Import puppetlabs GPG key
+  rpm_key:
+    state: present
+    key: "https://yum.puppetlabs.com/RPM-GPG-KEY-puppet-20250406"
+  environment: "{{ proxy_env|default({}) }}"
+  when: puppetize_manage_repo
+
 - name: install puppetlabs repo
   yum:
     name: "{{ puppetlabs_repo_url | default(repo_base ~ '/puppet' ~ puppet_version ~ '-release-el-' ~ ansible_facts['distribution_major_version'] ~ '.noarch.rpm') }}"
