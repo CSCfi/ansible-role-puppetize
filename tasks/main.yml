@@ -18,7 +18,7 @@
   when:
     - puppet_environment is not search('^production(_[A-z,0-9]+)?$')
     - puppet_environment is not search('^test(_[A-z,0-9]+)?$')
-    - puppet_file_content.stdout is search('^test(_[A-z,0-9]+)?$') or puppet_file_content.stdout is search('^production(_[A-z,0-9]+)?$')
+    - puppet_file_content.stdout is search('test(_[A-z,0-9]+)?') or puppet_file_content.stdout is search('production(_[A-z,0-9]+)?')
     - puppet_file_content.rc == 0
 
 - name: Fail when test or production is run against wrong environment
