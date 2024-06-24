@@ -16,9 +16,9 @@
     msg: 'Development environment is not allowed to run against test or production'
   tags: ['configure_puppet_client', 'testing' ]
   when:
-    - puppet_environment != "production"
-    - puppet_environment != "test"
-    - puppet_file_content.stdout is search('test') or puppet_file_content.stdout is search('production')
+    - puppet_environment is not search('^production(_[A-z,0-9]+)?$')
+    - puppet_environment is not search('^test(_[A-z,0-9]+)?$')
+    - puppet_file_content.stdout is search('test(_[A-z,0-9]+)?') or puppet_file_content.stdout is search('production(_[A-z,0-9]+)?')
     - puppet_file_content.rc == 0
 
 - name: Fail when test or production is run against wrong environment
@@ -27,7 +27,7 @@
   tags: ['configure_puppet_client', 'testing']
   when:
     - puppet_environment not in puppet_file_content.stdout
-    - puppet_environment == "production" or puppet_environment == "test"
+    - puppet_environment is search('^production(_[A-z,0-9]+)?$') or puppet_environment is search('^test(_[A-z,0-9]+)?$')
     - puppet_file_content.rc == 0
 
 - name: template in puppet config
