@@ -1,6 +1,6 @@
 ---
 puppet_run_only: false
-puppetize_time_difference: 120
+puppetize_time_difference: 1800
 puppetize_manage_repo: false
 puppetize_enable_puppet: false
 
