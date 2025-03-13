@@ -75,7 +75,7 @@
   when: not puppet_run_only
 
 - name: sign cert on puppetmaster
-  command: "{{ puppet_agent_bin_path }} cert sign {{ inventory_hostname }}"
+  command: "{{ puppet_server_bin_path }} ca sign --certname {{ inventory_hostname }}"
   remote_user: "{{ lookup('env', 'USER') }}"
   become: true
   become_user: root
