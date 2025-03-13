@@ -19,7 +19,8 @@
 - name: Import puppetlabs GPG key
   rpm_key:
     state: present
-    key: "https://yum.puppetlabs.com/RPM-GPG-KEY-puppet-20250406"
+#    key: "https://yum.puppetlabs.com/RPM-GPG-KEY-puppet-20250406"
+    key: "https://yum.puppetlabs.com/RPM-GPG-KEY-puppet"
   environment: "{{ proxy_env|default({}) }}"
   when: puppetize_manage_repo
 
