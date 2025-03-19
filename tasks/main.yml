@@ -66,7 +66,7 @@
     - my_puppetize_time < reg_puppetmaster_facts.ansible_facts.ansible_date_time.epoch
 
 - name: request cert to be signed on puppetmaster
-  command: "{{ puppet_agent_bin_path }} agent --test --noop"
+  command: "{{ puppet_agent_bin_path }} ssl submit_request"
   register: puppet_result
   args:
     creates: "{{ puppet_cert_request_path }}/{{ inventory_hostname }}.pem"
