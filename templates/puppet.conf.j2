@@ -30,6 +30,8 @@
     # extension indicating the cache format is added automatically.
     # The default value is '$confdir/localconfig'.
     #localconfig = $vardir/localconfig
+    use_last_environment = false
+    strict_environment_mode = true
     server = {{ puppetmaster_fqdn }}
     certname = {{ inventory_hostname }}
     environment = {{ puppet_environment }}
